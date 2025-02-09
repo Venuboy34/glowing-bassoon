@@ -1,37 +1,64 @@
-const apiKey = 'bb1bb30c';  // Replace with your API key
+const apiKey = 'bb1bb30c';  // Your OMDB API key
+let currentCategory = 'movie';  // Default category to 'movie'
 
-function loadMovies(category) {
-    const url = `http://www.omdbapi.com/?s=${category}&apikey=${apiKey}`;
+// Function to fetch movies or anime from OMDB API
+async function fetchMovies(category = 'movie') {
+    const url = `http://www.omdbapi.com/?apikey=${apiKey}&s=${category}`;
+    const response = await fetch(url);
+    const data = await response.json();
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.Response === "True") {
-                displayMovies(data.Search);
-            } else {
-                document.getElementById("movie-results").innerHTML = '<p>No results found.</p>';
-            }
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    if (data.Response === 'True') {
+        displayMovies(data.Search);
+    } else {
+        document.getElementById('movie-list').innerHTML = 'No results found!';
+    }
 }
 
+// Function to display movies or anime on the page
 function displayMovies(movies) {
-    const movieResults = document.getElementById("movie-results");
-    movieResults.innerHTML = '';  // Clear previous results
+    const movieList = document.getElementById('movie-list');
+    movieList.innerHTML = '';  // Clear previous results
 
     movies.forEach(movie => {
-        const movieCard = document.createElement("div");
-        movieCard.classList.add("movie-card");
-
-        movieCard.innerHTML = `
+        const movieItem = document.createElement('div');
+        movieItem.classList.add('movie-item');
+        movieItem.innerHTML = `
             <img src="${movie.Poster}" alt="${movie.Title}">
             <h3>${movie.Title}</h3>
-            <p>${movie.Year}</p>
         `;
-        
-        movieResults.appendChild(movieCard);
+        movieItem.addEventListener('click', () => displayMovieInfo(movie.imdbID));
+        movieList.appendChild(movieItem);
     });
 }
 
-// Load the latest movies by default
-loadMovies('movie');
+// Function to display individual movie information
+async function displayMovieInfo(imdbID) {
+    const url = `http://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}`;
+    const response = await fetch(url);
+    const movie = await response.json();
+
+    if (movie.Response === 'True') {
+        alert(`Title: ${movie.Title}\nYear: ${movie.Year}\nPlot: ${movie.Plot}`);
+    } else {
+        alert('Movie not found');
+    }
+}
+
+// Function to filter by category (movies or anime)
+function filterCategory(category) {
+    currentCategory = category;
+    fetchMovies(category);
+}
+
+// Function to search for a movie
+function searchMovie() {
+    const query = document.getElementById('search-bar').value;
+    if (query) {
+        fetchMovies(query);
+    } else {
+        fetchMovies(currentCategory);
+    }
+}
+
+// Initialize the page by fetching the default category (movies)
+fetchMovies(currentCategory);
