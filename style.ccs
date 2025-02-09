@@ -1,71 +1,65 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;  /* Dark background */
+    color: white;  /* White text for contrast */
 }
 
 header {
-    background-color: #333;
+    background-color: #ff6600;  /* Orange background for header */
     color: white;
-    text-align: center;
     padding: 20px;
+    text-align: center;
 }
 
-header h1 {
-    font-size: 2rem;
-}
-
-#categories {
+input {
+    padding: 10px;
     margin-top: 10px;
+    width: 300px;
+    background-color: #333;  /* Dark input field */
+    color: white;  /* White text inside the input */
+    border: 1px solid #ff6600;  /* Orange border */
 }
 
 #categories button {
-    padding: 10px 20px;
     margin: 5px;
-    background-color: #f39c12;
-    border: none;
+    padding: 10px;
+    background-color: #ff6600;  /* Orange buttons */
     color: white;
+    border: none;
     cursor: pointer;
 }
 
 #categories button:hover {
-    background-color: #e67e22;
+    background-color: #cc5200;  /* Darker orange on hover */
 }
 
-#latest-movies {
-    margin-top: 30px;
-    padding: 20px;
-}
-
-#movie-results {
+#movie-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    padding: 20px;
 }
 
-.movie-card {
+.movie-item {
     width: 200px;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 10px;
-    overflow: hidden;
-    text-align: center;
+    padding: 10px;
+    background-color: #333;  /* Dark background for movie items */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
 
-.movie-card img {
+.movie-item img {
     width: 100%;
     height: 300px;
     object-fit: cover;
 }
 
-.movie-card h3 {
-    padding: 10px;
+.movie-item h3 {
+    font-size: 1.2em;
+    margin-top: 10px;
+    text-align: center;
+    color: #ff6600;  /* Orange text for movie titles */
 }
